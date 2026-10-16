@@ -5,8 +5,8 @@ Copy this file to `TEAM.md` in your team repository and complete it before start
 ## Course
 
 - Module: MESIFI472326 - Python, Git, Linux
-- TD Group: GXX
-- MarketPulse Team: TXX
+- TD Group: G03
+- MarketPulse Team: T12
 
 ## Members
 
@@ -14,8 +14,6 @@ Copy this file to `TEAM.md` in your team repository and complete it before start
 | Ralph BITAR | ralphbitar12 |
 | Amaury KEMLIN | AKemlin |
 | Thomas LIOTIER | ThomasLiotier |
-
-Add a fourth row only if your team has four members.
 
 ## Repository
 
