@@ -19,8 +19,8 @@
 5. The input files are stored in `data/sample/`.
 
 So:
-- JSON → `load_instruments()`
-- CSV → `load_prices()`
-- One ticker selection → `filter_prices(prices, ticker)`
-- Execution control → `main()`
-- Files folder → `data/sample/`
+- JSON -> `load_instruments()`
+- CSV -> `load_prices()`
+- One ticker selection -> `filter_prices(prices, ticker)`
+- Execution control ->`main()`
+- Files folder ->`data/sample/`
