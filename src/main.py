@@ -66,6 +66,8 @@ def main():
 
     print("Instrument")
     print(f"{instrument['ticker']} - {instrument['name']}")
+    print(f"Market   : {instrument['market']}")
+    print(f"Currency : {instrument['currency']}")
     print(f"Observations : {len(instrument_prices)}")
     print(f"First date   : {get_first_date(instrument_prices)}")
     print(f"Last date    : {get_last_date(instrument_prices)}")
@@ -75,6 +77,8 @@ def main():
 
     print("Benchmark")
     print(f"{benchmark['ticker']} - {benchmark['name']}")
+    print(f"Market   : {benchmark['market']}")
+    print(f"Currency : {benchmark['currency']}")
     print(f"Observations : {len(benchmark_prices)}")
     print(f"First date   : {get_first_date(benchmark_prices)}")
     print(f"Last date    : {get_last_date(benchmark_prices)}")
