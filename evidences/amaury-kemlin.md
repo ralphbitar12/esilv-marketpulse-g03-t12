@@ -6,3 +6,5 @@
 ![03_branch_merge.png](image.png)
 ![03_branch_merge1.png](image-1.png)
 ![Final TD4](image.png)
+![commit td 5](image-1.png)
+![commit td 5 2](image-2.png)
