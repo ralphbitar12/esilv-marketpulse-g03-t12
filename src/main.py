@@ -22,6 +22,22 @@ def load_prices():
 def filter_prices(prices, ticker):
     return [row for row in prices if row["ticker"] == ticker]
 
+def get_first_date(prices):
+    return prices[0]["date"]
+
+
+def get_last_date(prices):
+    return prices[-1]["date"]
+
+
+def display_market_summary(title, instrument, prices):
+    print(f"=== {title} ===")
+    print(f"{instrument['ticker']} - {instrument['name']}")
+    print(f"Observations : {len(prices)}")
+    print(f"First date   : {get_first_date(prices)}")
+    print(f"Last date    : {get_last_date(prices)}")
+    print(f"First close  : {prices[0]['close']:.2f} {instrument['currency']}")
+    print(f"Last close   : {prices[-1]['close']:.2f} {instrument['currency']}\n")
 
 # TD04 - New functions
 def get_first_date(prices):
