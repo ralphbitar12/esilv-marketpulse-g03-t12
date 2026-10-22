@@ -2,12 +2,17 @@ from pathlib import Path
 import csv
 import json
 
+from analytics import (
+    align_series,
+    calculate_period_return,
+    calculate_base_100,
+    calculate_relative_performance,
+)
 
 DATA_DIR = Path("data/sample")
 
 LOOKBACK_LABEL = "1 month"
 INTERVAL_LABEL = "Daily"
-PROVIDER_LABEL = "CSV"
 
 
 def load_instruments():
@@ -32,6 +37,17 @@ def get_last_date(prices):
     return prices[-1]["date"]
 
 
+def display_market_summary(title, instrument, prices):
+    print(f"=== {title} ===")
+    print(f"{instrument['ticker']} - {instrument['name']}")
+    print(f"Market       : {instrument.get('market', 'N/A')}")
+    print(f"Observations : {len(prices)}")
+    print(f"First date   : {get_first_date(prices)}")
+    print(f"Last date    : {get_last_date(prices)}")
+    print(f"First close  : {float(prices[0]['close']):.2f} {instrument['currency']}")
+    print(f"Last close   : {float(prices[-1]['close']):.2f} {instrument['currency']}\n")
+
+
 def main():
     instruments = load_instruments()
     prices = load_prices()
@@ -42,35 +58,34 @@ def main():
     instrument_prices = filter_prices(prices, instrument["ticker"])
     benchmark_prices = filter_prices(prices, benchmark["ticker"])
 
-    instrument_latest = instrument_prices[-1]
-    benchmark_latest = benchmark_prices[-1]
+    print("=== MarketPulse ===\n")
 
-    print("=== MarketPulse ===")
-    print()
+    display_market_summary("Instrument", instrument, instrument_prices)
+    display_market_summary("Benchmark", benchmark, benchmark_prices)
 
-    print("Instrument")
-    print(f"{instrument['ticker']} - {instrument['name']}")
-    print(f"Market       : {instrument.get('market', 'N/A')}")
-    print(f"Observations : {len(instrument_prices)}")
-    print(f"First date   : {get_first_date(instrument_prices)}")
-    print(f"Last date    : {get_last_date(instrument_prices)}")
-    print(f"First close  : {instrument_prices[0]['close']} {instrument['currency']}")
-    print(f"Last close   : {instrument_latest['close']} {instrument['currency']}")
-    print()
+    # TD07: Alignment and Comparative Analytics
+    aligned_inst, aligned_bench = align_series(instrument_prices, benchmark_prices)
 
-    print("Benchmark")
-    print(f"{benchmark['ticker']} - {benchmark['name']}")
-    print(f"Market       : {benchmark.get('market', 'N/A')}")
-    print(f"Observations : {len(benchmark_prices)}")
-    print(f"First date   : {get_first_date(benchmark_prices)}")
-    print(f"Last date    : {get_last_date(benchmark_prices)}")
-    print(f"First close  : {benchmark_prices[0]['close']}")
-    print(f"Last close   : {benchmark_latest['close']}")
-    print()
+    inst_ret = calculate_period_return(aligned_inst)
+    bench_ret = calculate_period_return(aligned_bench)
+    rel_perf = calculate_relative_performance(inst_ret, bench_ret)
+
+    inst_base_100 = calculate_base_100(aligned_inst)
+    bench_base_100 = calculate_base_100(aligned_bench)
+
+    print("Comparison (aligned)")
+    print(f"Aligned sessions         : {len(aligned_inst)}")
+    print(f"{instrument['ticker']} period return       : {inst_ret:+.2f}%")
+    print(f"{benchmark['ticker']} period return      : {bench_ret:+.2f}%")
+    print(f"Relative performance     : {rel_perf:+.2f} percentage points\n")
+
+    print("Base 100")
+    print(f"{instrument['ticker']}   : {inst_base_100[0]['value']:.2f} -> {inst_base_100[-1]['value']:.2f}")
+    print(f"{benchmark['ticker']}  : {bench_base_100[0]['value']:.2f} -> {bench_base_100[-1]['value']:.2f}\n")
 
     print(f"Period: {LOOKBACK_LABEL}")
     print(f"Interval: {INTERVAL_LABEL}")
-    print(f"Provider: {PROVIDER_LABEL}")
+
 
 if __name__ == "__main__":
     main()
