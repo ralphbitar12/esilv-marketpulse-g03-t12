@@ -2,12 +2,24 @@
 
 
 def index_by_date(prices):
-    raise NotImplementedError  # Owner: Ralph
+    return {row["date"]: row for row in prices}
+ # Owner: Ralph
 
 
 def align_series(instrument_prices, benchmark_prices):
-    raise NotImplementedError  # Owner: Ralph
+    inst_by_date = index_by_date(instrument_prices)
+    bench_by_date = index_by_date(benchmark_prices)
 
+
+    common_dates = sorted(set(inst_by_date.keys()) & set(bench_by_date.keys()))
+
+
+    aligned_instrument = [inst_by_date[d] for d in common_dates]
+    aligned_benchmark = [bench_by_date[d] for d in common_dates]
+
+
+    return aligned_instrument, aligned_benchmark
+ # Owner: Ralph
 
 def calculate_period_return(prices):
     raise NotImplementedError  # Owner: Thomas
