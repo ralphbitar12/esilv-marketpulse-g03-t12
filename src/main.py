@@ -7,6 +7,7 @@ DATA_DIR = Path("data/sample")
 
 LOOKBACK_LABEL = "1 month"
 INTERVAL_LABEL = "Daily"
+PROVIDER_LABEL = "CSV"
 
 
 def load_instruments():
@@ -84,7 +85,7 @@ def main():
 
     print(f"Period: {LOOKBACK_LABEL}")
     print(f"Interval: {INTERVAL_LABEL}")
-
+    print(f"Provider: {PROVIDER_LABEL}")
 
 if __name__ == "__main__":
     main()
