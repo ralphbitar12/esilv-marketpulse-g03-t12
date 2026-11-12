@@ -10,7 +10,8 @@ and added my own contributions while keeping my teammates' work intact.
 ### 01_terminal_python.png
 
 Shows my working environment: Python 3.14.2, Git 2.55.0, and
-`python src/main.py` running
+`python src/main.py` running and printing the MarketPulse output for the
+instrument (AAPL) and the benchmark (SP500).
 
 ### 02_git_status_log.png
 
@@ -19,18 +20,20 @@ Shows `git status` on my feature branch with a clean working tree, and
 
 ### 03_branch_merge.png
 
-Shows the branch and merge state after my feature branch was integrated
-into main.
+Shows `git branch --merged` listing `fix/data-path-resolution` as merged into
+main, and the Git graph with my commit integrated. The merge was a
+fast-forward.
 
 ## My contributions
 
-- **PR #7** - `TEAM.md`: added myself to the team members, fixed the missing
+**PR #7** - `TEAM.md`: added myself to the team members, fixed the missing
   Markdown separator line that made the table render as plain text on GitHub,
   and removed the leftover instruction line from `TEAM_TEMPLATE.md`.
-- **PR #8** - `src/main.py`: fixed `DATA_DIR`, which was a path relative to the
+**PR #8** - `src/main.py`: fixed `DATA_DIR`, which was a path relative to the
   current directory. `python src/main.py` crashed with `FileNotFoundError`
   when run from anywhere other than the repository root. It is now resolved
   from `__file__`, like the `sys.path` line above it.
+**PR #9** - this Checkpoint A evidence folder.
 
 ## What I understood
 
