@@ -1,7 +1,5 @@
 # MarketPulse Team
 
-Copy this file to `TEAM.md` in your team repository and complete it before starting collaborative work.
-
 ## Course
 
 - Module: MESIFI472326 - Python, Git, Linux
@@ -11,9 +9,11 @@ Copy this file to `TEAM.md` in your team repository and complete it before start
 ## Members
 
 | Full name | GitHub username |
+|-----|------|
 | Ralph BITAR | ralphbitar12 |
 | Amaury KEMLIN | AKemlin |
 | Thomas LIOTIER | ThomasLiotier |
+| Théo TAVARES | theotavares92600 |
 
 ## Repository
 
