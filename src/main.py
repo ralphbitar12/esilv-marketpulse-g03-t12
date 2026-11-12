@@ -13,7 +13,8 @@ from src.analytics import (
 )
 
 
-DATA_DIR = Path("data/sample")
+
+DATA_DIR = Path(__file__).resolve().parent.parent / "data" / "sample"
 
 LOOKBACK_LABEL = "1 month"
 INTERVAL_LABEL = "Daily"
