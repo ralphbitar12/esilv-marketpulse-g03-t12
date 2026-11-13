@@ -11,13 +11,18 @@ from src.analytics import (
     calculate_base_100,
     calculate_relative_performance,
 )
+from src.providers.yahoo_provider import fetch_yahoo_prices
 
 
 DATA_DIR = Path("data/sample")
 
+PROVIDER = "yahoo"  # "yahoo" or "csv"
+LOOKBACK = "1mo"
+INTERVAL = "1d"
+
 LOOKBACK_LABEL = "1 month"
 INTERVAL_LABEL = "Daily"
-PROVIDER_LABEL = "CSV"
+PROVIDER_LABEL = "Yahoo Finance" if PROVIDER == "yahoo" else "CSV"
 
 
 def load_instruments():
@@ -44,13 +49,18 @@ def get_last_date(prices):
 
 def main():
     instruments = load_instruments()
-    prices = load_prices()
-
     instrument = instruments["instrument"]
     benchmark = instruments["benchmark"]
 
-    instrument_prices = filter_prices(prices, instrument["ticker"])
-    benchmark_prices = filter_prices(prices, benchmark["ticker"])
+    if PROVIDER == "yahoo":
+        instrument_prices = fetch_yahoo_prices(instrument["ticker"], LOOKBACK, INTERVAL)
+        benchmark_prices = fetch_yahoo_prices(benchmark["ticker"], LOOKBACK, INTERVAL)
+    elif PROVIDER == "csv":
+        prices = load_prices()
+        instrument_prices = filter_prices(prices, instrument["ticker"])
+        benchmark_prices = filter_prices(prices, benchmark["ticker"])
+    else:
+        raise ValueError(f"Unsupported provider: {PROVIDER}")
 
     instrument_latest = instrument_prices[-1]
     benchmark_latest = benchmark_prices[-1]
@@ -64,8 +74,8 @@ def main():
     print(f"Observations : {len(instrument_prices)}")
     print(f"First date   : {get_first_date(instrument_prices)}")
     print(f"Last date    : {get_last_date(instrument_prices)}")
-    print(f"First close  : {instrument_prices[0]['close']} {instrument['currency']}")
-    print(f"Last close   : {instrument_latest['close']} {instrument['currency']}")
+    print(f"First close  : {float(instrument_prices[0]['close']):.2f} {instrument['currency']}")
+    print(f"Last close   : {float(instrument_latest['close']):.2f} {instrument['currency']}")
     print()
 
     print("Benchmark")
@@ -74,8 +84,8 @@ def main():
     print(f"Observations : {len(benchmark_prices)}")
     print(f"First date   : {get_first_date(benchmark_prices)}")
     print(f"Last date    : {get_last_date(benchmark_prices)}")
-    print(f"First close  : {benchmark_prices[0]['close']}")
-    print(f"Last close   : {benchmark_latest['close']}")
+    print(f"First close  : {float(benchmark_prices[0]['close']):.2f}")
+    print(f"Last close   : {float(benchmark_latest['close']):.2f}")
     print()
 
     print(f"Period: {LOOKBACK_LABEL}")
