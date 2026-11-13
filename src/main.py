@@ -12,12 +12,15 @@ from src.analytics import (
     calculate_relative_performance,
 )
 
+from src.providers.yahoo_provider import fetch_yahoo_prices
+
 
 DATA_DIR = Path("data/sample")
 
 LOOKBACK_LABEL = "1 month"
 INTERVAL_LABEL = "Daily"
-PROVIDER_LABEL = "CSV"
+PROVIDER = "yahoo"   # or "csv"
+PROVIDER_LABEL = "Yahoo Finance" if PROVIDER == "yahoo" else "CSV"
 
 
 def load_instruments():
@@ -49,8 +52,13 @@ def main():
     instrument = instruments["instrument"]
     benchmark = instruments["benchmark"]
 
-    instrument_prices = filter_prices(prices, instrument["ticker"])
-    benchmark_prices = filter_prices(prices, benchmark["ticker"])
+
+    if PROVIDER == "yahoo":
+        instrument_prices = fetch_yahoo_prices(instrument["ticker"])
+        benchmark_prices = fetch_yahoo_prices(benchmark["ticker"])
+    else:
+        instrument_prices = filter_prices(prices, instrument["ticker"])
+        benchmark_prices = filter_prices(prices, benchmark["ticker"])
 
     instrument_latest = instrument_prices[-1]
     benchmark_latest = benchmark_prices[-1]
